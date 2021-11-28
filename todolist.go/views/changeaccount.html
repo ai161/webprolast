@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }} | todolist.go</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script language="JavaScript">
+    function Check(){
+        if(document.inform.passwordpre.value==""){
+            alert("元パスワードを入力してください。");
+        return false;
+        }
+        else if(document.inform.password1.value==""){
+            alert("パスワードを入力してください。");
+        return false;
+        }
+        else if(document.inform.password2.value==""){
+            alert("確認パスワードを入力してください。");
+        return false;
+        }
+        else if(document.inform.password1.value != document.inform.password2.value){
+            alert("パスワードと確認が一致しません。");
+            return false;
+		}
+        return true;
+    } 
+
+    function Checkname(){
+        if(document.names.namepre.value==""){
+            alert("元ユーザ名を入力してください。");
+        return false;
+        }
+        if(document.names.name.value==""){
+            alert("ユーザ名を入力してください。");
+        return false;
+        }
+        return true;
+    }
+
+    function CheckPassword(){
+		if(document.del.password.value==""){
+            alert("パスワードを入力してください。");
+        return false;
+        }
+        return true;
+    }
+    </script>
+</head>
+<!--参考文献 フォームメール／未入力チェックのサンプル
+http://support.avis.ne.jp/user-support/server/cgi-hosting/commoncgi/formmail/sample2
+-->
+
+<body>
+
+    <h1>登録者情報変更</h1>
+
+<ul>
+    {{ .Message }}
+    <li>ログイン情報変更</li>
+    <form  action="/homebirthchange/" method="POST">
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <label for="birth">生年月日登録/変更</label><br>
+        <input type="date" name="birth"><br>
+        <input type="submit" value="生年月日変更">
+    </form><br>
+
+    <form  action="/homenamechange/" method="POST" name="names" onsubmit="return Checkname()">
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <label for="namepre">元ユーザ名</label><br>
+        <input type="text" name="namepre"><br>
+        <label for="name">ユーザ名</label><br>
+        <input type="text" name="name"><br>
+        <input type="submit" value="ユーザ名変更">
+    </form><br>
+
+
+    <form  action="/homechange" method="POST" name="inform" onsubmit="return Check()">
+        <input type="hidden" name="UID" value={{ .UID }}>
+    <label for="passwordpre">元パスワード</label><br>
+    <input type="password" name="passwordpre"><br>
+    <label for="password1">パスワード</label><br>
+    <input type="password" name="password1"><br>
+    <label for="password2">確認パスワード</label><br>
+    <input type="password" name="password2"><br>
+     <input type="submit" value="パスワード変更">
+        </form><br>
+
+    <li>登録情報削除</li>
+    <form  action="/homedel" method="POST" name="del" onsubmit="return CheckPassword()">
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <label for="name">ユーザ名</label><br>
+        <input type="text" name="name"><br>
+    <label for="password">パスワード</label><br>
+    <input type="password" name="password"><br>
+     <input type="submit" value="登録情報削除">
+    </form>
+
+    <br>
+    <tr><form action="/backhome" method="POST">
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <input type="submit" value="homeに戻る">
+    </form></tr>
+    
+
+        
+</ul>
+
+{{ template "footer" }}

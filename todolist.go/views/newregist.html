@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }} | todolist.go</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script language="JavaScript">
+    function Check(){
+        if(document.addlist.name.value==""){
+            alert("ユーザ名を入力してください。");
+        return false;
+        }
+        if(document.addlist.password.value==""){
+            alert("パスワードを入力してください。");
+        return false;
+        }
+        return true;
+    } 
+    </script>
+</head>
+<!--参考文献 フォームメール／未入力チェックのサンプル
+http://support.avis.ne.jp/user-support/server/cgi-hosting/commoncgi/formmail/sample2
+-->
+
+<body>
+
+<h1>TODO List</h1>
+<ul>
+    <th>新規登録</th>
+    <form  action="/" method="POST" name="addlist" onsubmit="return Check()">
+        <label for="name">ユーザ名</label>
+        <input type="name" name="name">
+        <label for="password">パスワード</label>
+        <input type="password" name="password">
+        <button type="submit">登録</button>
+    </form>
+
+<br>
+    <tr><a href="/">
+        ログイン画面に戻る
+    </a>
+</ul>
+{{ template "footer" }}

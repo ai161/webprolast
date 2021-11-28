@@ -1,0 +1,18 @@
+{{ template "header" . }}
+<h1>TODO List</h1>
+<ul>
+    <th>{{ .Re}}</th><br>
+    <li>ログイン</li>
+    <form  action="/home" method="POST">
+    <label for="name">ユーザー名</label><br>
+    <input type="text" name="name"> <br>
+    <label for="password">パスワード</label><br>
+    <input type="password" name="password"><br>
+     <input type="submit" value="ログイン">
+        </form><br>
+    <li><a href="/newregist">新規登録はこちら</a></li>
+    <br>
+    <li><a href="/forgetregist">パスワードを忘れた方</a></li>
+</ul>
+
+{{ template "footer" }}

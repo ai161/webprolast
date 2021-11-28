@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }} | todolist.go</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script language="JavaScript">
+    function Check(){
+        if(document.addlist.title.value==""){
+            alert("タイトルを入力してください。");
+        return false;
+        }
+        return true;
+    } 
+    </script>
+</head>
+<!--参考文献 フォームメール／未入力チェックのサンプル
+http://support.avis.ne.jp/user-support/server/cgi-hosting/commoncgi/formmail/sample2
+-->
+
+<h1>List of tasks</h1>
+
+<body>
+
+    <tr>
+        <li>タスクの検索</li>
+        <td>
+            <form action="/listsearch" method="POST">
+                <input type="hidden" name="UID" value={{ .UID }}>
+             <label for="search-word">タイトル検索</label>
+             <input type="text" name="search-word">
+             <label for="search-state"></label>
+             <input type="checkbox" name="search-dostate" value="do">済
+             <input type="checkbox" name="search-undostate" value="undo">未
+             <input type="submit" value="検索">
+            </form>
+        </td>
+    
+    </tr>
+
+{{ if not .Tasks }}
+<p>登録データがありません．</p>
+{{ else }}
+
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>登録日</th>
+        <th>状態</th>
+    </tr>
+    {{ range $task := .Tasks }}
+    <tr>
+        
+        <td><a href="/task/{{ $task.ID }}">{{ $task.ID }}</a></td>
+        <td>{{ $task.Title }}</td>
+        <td>{{ $task.CreatedAt }}</td>
+        <td>
+            {{ if $task.IsDone }}
+                済
+            {{ end }}
+        </td>
+        <td>
+            <form action="/listchange/{{ $task.ID }}" method="POST">
+                <input type="hidden" name="UID" value={{ $.UID }}>
+                <input type="submit" value="change">
+
+            </form>
+        </td>
+        <td>
+            <form action="/listdel/{{ $task.ID }}" method="POST">
+                <input type="hidden" name="UID" value={{ $.UID }}>
+                <input type="submit" value="delete">
+
+            </form>
+        </td>
+
+    </tr>
+    {{ end }}
+</table>
+{{ end }}
+<tr>
+    <li>タスクを追加する</li>
+    <td><form action="/listadd" method="POST" name="addlist"onsubmit="return Check()">
+        <input type="hidden" name="UID" value={{ .UID }}>
+         <label for="title">タスク名</label>
+         <input type="text" name="title">
+         <input type="submit" value="追加" >
+        </form>
+    </td>
+</tr>
+<br>
+<td>
+    <tr><form action="/list" method="POST">
+        全リスト一覧
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <input type="submit" value="go">
+    </form></tr>
+</td>
+<br>
+<br>
+<tr>
+    <form action="/backhome" method="POST">
+        <input type="hidden" name="UID" value={{ .UID }}>
+        <input type="submit" value="homeに戻る">
+    </form>
+</tr>
+
+{{ template "footer" }}

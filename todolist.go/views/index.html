@@ -1,0 +1,30 @@
+{{ template "header" . }}
+<h1>TODO List</h1>
+<ul>
+    {{ if not .Accounts }}<br>
+    <th>パスワードが間違っている</th>
+    <th>あるいはuserが存在しません。</th>
+    <tr><a href="/">
+        ログイン画面に戻る
+    </a>
+    {{ else }}
+    {{ range $account := .Accounts }}
+    <li>登録済みタスク一覧へ<form action="/list" method="POST">
+        <input type="hidden" name="UID" value={{ $account.ID }}>
+        <input type="submit" value="go">
+    </form></li>
+    <li>登録者情報更新<form action="/confirm" method="POST">
+        <input type="hidden" name="UID" value={{ $account.ID }}>
+        <input type="submit" value="更新画面へ">
+    </form></li>
+    {{ end }}
+    <br>
+    <tr><a href="/">
+        ログアウト
+    </a>
+    {{ end }}
+
+
+
+</ul>
+{{ template "footer" }}
